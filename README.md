@@ -66,7 +66,7 @@ Válvula Electrómecánica 3 a 2 para activar la succión.
 
 ## Estación en Robot Studio
 
-Para este proyecto se utilizaron dos estaciones de trabajo en RoboStudio, una para simulación y una para desarrollar el codigo RAPID que se subio al controlador del LABSIR para la práctica.
+Para este proyecto se utilizaron dos estaciones de trabajo en RoboStudio, una para simulación y una para desarrollar el codigo RAPID que se subio al controlador del LABSIR para la práctica. El espacio de trabajo utilizado para las estaciones, y la posterior práctica,  se situio en el cuadranta (+x,-y) del robot.
 
 ### Estación Simulación
 
