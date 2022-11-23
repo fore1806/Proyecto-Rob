@@ -28,13 +28,36 @@ Planos, Diseño 3D, Fotografias y piezas.
 
 ## Bases Diseñadas
 
-### Base posicion inicial
+Con el objetivo de hacer el ensamblaje del mecanismo es necesario diseñar dos estructuras que permitan, por un lado, acceder a las piezas en un lugar especifico y en una posición determinada y, por otro lado, alojar estas mismas en una estructura que facilite el ensamblaje final del mecanismo. Con esto en mente se diseña una base de sujeción de piezas y una base de alojamiento de las mismas, tal y como se muestra a continuación:
 
-Modelo 3D,Fotografia, Piezas utilizadas, proceso de ensamble.
+### Base de sujeción de piezas 
+
+Haciendo uso de la herramienta Inventor se diseña el siguiente modelo 3d, en este se le asigna una posición especifica a cada una de las piezas del gripper tratando de utilizar la menor área posible y, teniendo en cuenta, que debe existir un espacio considerable entre las mismas.
+
+![](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/SoporteInicial.jpg) 
+
+Las piezas lucirán de la siguiente manera acto previo al inicio del proceso de ensamblaje.
+
+![](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/SoporteInicial2.jpg) 
+
+A continuación se presenta la base de sujeción elaborada con madera MDF en un espesor de 5mm mediante un proceso de corte láser:
+
+![](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/BaseSujecion.png) 
+
 
 ### Base del Ensamble Final
 
-Modelo 3D, Fotografia, Piezas utilizadas, proceso de ensamble.
+En lo que respecta a la base del alojamiento del ensamblaje final se diseña el siguiente modelo 3D:
+
+![](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/portaEnsamble.jpg) 
+
+Como es posible observar, este cuenta con tres capas traslapadas una encima de otra, esto con el fin de alojar cada una de las piezas del ensamblaje final de la forma mas natural posible, de manera que sea cómodo y fácil el proceso de ensamble. Vale la pena aclarar que este molde cuenta con una tolerancia de alrededor de 2mm con respecto a las piezas que se albergan en el mismo, lo que facilita el ensamble final y evita cualquier inconveniente que pueda darse en el caso de que el posicionamiento no sea el correcto.
+
+El resultado final es el siguiente:
+
+![](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/BaseEnsamblaje.png) 
+
+Para llegar al resultado anterior es necesario pegar las tres capas con colbon, pegante ideal para el material trabajado. Esta base cuenta con diferentes agujeros que permiten albergar los diferentes tornillos que se ubican en cada una de las articulaciones del mecanismo a ensamblar. 
 
 ## Porta Ventosa Diseñado
 
