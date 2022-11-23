@@ -39,6 +39,7 @@ Modelo 3D, Fotografia, Piezas utilizadas, proceso de ensamble.
 ## Porta Ventosa Diseñado
 
 Modelo 3D, Fotografia, Piezas utilizadas, proceso de ensamble.
+Válvula Electrómecánica 3 a 2 para activar la succión.
 
 ## Estación en Robot Studio
 
@@ -183,16 +184,18 @@ PROC main()
         Reset DO_03;
     ENDPROC
 ```
-#### Comentarios Trayectorias
-Al inicio de todas la rutinas hay un movimiento de *joint*  a un target intermedio 80mm arriba de la tabla inicial, esto para evitar conflictos si se paraba el programa en algun punto no esperado, además de que en este caso el robot parte de la posición *Home*  Este target intermedio es a donde van la mayoria de trayectorias después de subir 25mm después de haber tomado o dejado una pieza. Hay un target intermedio definido para el workobject *Pick* llamado *PickApp* y uno para el *workobject*
+#### Comentarios Generales Trayectorias
 
-Todas las rutinas también tiene un punto de aproximación 25mm encima del target esperado de recogida, y de soltada, de forma que la recogida y la soltada se hacen con un movimiento recto descendiente de 25mm, disminuyendo la fuerza ejercida sobre la pieza y aumentando la precisión de estos movimientos. Entonces, el robot llega al target de aproximación, baja al target esperado, vuelve a subir a este target de aproximación
+Al inicio de todas la rutinas hay un movimiento de *joint*  a un target intermedio 80mm arriba de la tabla inicial, esto para evitar conflictos si se paraba el programa en algun punto no esperado, ya que en este caso el robot parte de la posición *Home*, inhabilitando la opción de un movimiento lineal por la posición de la herramienta mirando hacia el eje -y. Este target intermedio es a donde van la mayoria de trayectorias después de subir 25mm después de haber tomado o dejado una pieza. Hay un target intermedio definido para el workobject *Pick* llamado *PickApp* y uno para el workobject *Place* llamado *PlaceApp*, ambos cumplen la misma funcionalidad en su respectivo workobject. De hecho para pasar de un workobject a otro , se hace un movimiento lineal desde *PickApp* hacia *PlaceApp*. En el caso de las piezas que requiren rotación se crearon otros targets análogos en el workboject *Place* con la orientación final requerida pero a una altura aproximada a la de *PlaceApp*.
 
-También se programo que al llegar al punto de recogida, el robot encienda la succión, espere 3 segundos en dicha posición, luego vuelva a apagar la señal que activa la valvula y ahi si ejecute la siguiente 
+Todas las rutinas también tiene un punto de aproximación 25mm encima del target esperado de recogida, y de soltada, de forma que la recogida y la soltada se hacen con un movimiento recto descendiente de 25mm, disminuyendo la fuerza ejercida sobre la pieza y aumentando la precisión de estos movimientos. Entonces, el robot llega al target de aproximación, baja al target esperado, vuelve a subir a este target de aproximación y de ahi pasa al atrget intermedio *PickApp* para luego saltar al otro punto intermedio del target *Place* y repite un proceso análogo al de aproximación pero para el target en *Place*.
+
+También se programo que al llegar al punto de recogida, el robot encienda la succión, espere 3 segundos en dicha posición, luego vuelva a apagar la señal que activa la valvula y ahi si ejecute la siguiente instrucción de movimiento. Esto le da tiempo a la succión de atrapar bien la pieza y evita el conflicto de que ambas salidas digitales conectadas a la valvula esten activas al mismo tiempo en algún momento. Cuando llega al punto de dejada, hace el mismo proceso de espera, pero en este caso activa y desactiva la salida que apaga la succión en la valvula.
+
+Todas las instrucciones *Move* terminan en el target *PickApp* para darle continuación a la siguiente traycetoria, ya que se definió este target como el movimento inicial de todas las trayectorias que mueven las piezas.
 
 #### MoveBase
-Esta trayectoria lleva al robot a Recoger el robot en el workobject *Pick* y la lleva hasta su posición final en el ensamble definido como el workobject *Place*. Esta pieza no requiere de ninguna rotación por lo que casi todos los movimientos son lineales, excepto la primera línea de aproximación.
-
+Esta trayectoria lleva al robot a recoger la Base del gripper en el workobject *Pick* y la lleva hasta su posición final en el ensamble definido como el workobject *Place*. Esta pieza no requiere de ninguna rotación por lo que casi todos los movimientos son lineales, excepto la primera línea de aproximación.
 
 ```console
     PROC MoveBase()
@@ -206,7 +209,6 @@ Esta trayectoria lleva al robot a Recoger el robot en el workobject *Pick* y la 
         MoveL PickApp,v100,fine,NewChupa\WObj:=Pick;
         MoveL PlaceApp,v100,fine,NewChupa\WObj:=Place;
         MoveL Base205,v100,fine,NewChupa\WObj:=Place;
-        WaitDI DI_01,1;
         MoveL Base20,v50,fine,NewChupa\WObj:=Place;
         Set DO_02;
         WaitTime 3;
@@ -218,3 +220,76 @@ Esta trayectoria lleva al robot a Recoger el robot en el workobject *Pick* y la 
 ```
 
 #### MoveT
+La T es la pieza que requirió la mayor rotación con 90° de rotación sobre el eje z, por lo que requirió una trayectoria especial, declarando dos targets nuevos intermedios de aproximación *Tpick* y *TApp* más altos por seguridad, y donde *TApp* tenia la orientación final requirida para la T. La rotación se dio en el plano xy por lo que el offset en z necesario no fue mucho, pero aun así se requirio un moveJ para pasar entre workobjects desde *Tpick* a *TApp* y viseversa al final de la rutina.
+
+```console
+    PROC MoveT()
+        MoveJ PickApp,v100,fine,NewChupa\WObj:=Pick;
+        MoveL T105,v100,fine,NewChupa\WObj:=Pick;
+        MoveL T10,v50,fine,NewChupa\WObj:=Pick;
+        Set DO_01;
+        WaitTime 3;
+        Reset DO_01;
+        MoveL T105,v100,fine,NewChupa\WObj:=Pick;
+        MoveL TPick,v100,fine,NewChupa\WObj:=Pick;
+        MoveJ TApp,v100,fine,NewChupa\WObj:=Place;
+        MoveL T205,v100,fine,NewChupa\WObj:=Place;
+        MoveL T20,v50,fine,NewChupa\WObj:=Place;
+        Set DO_02;
+        WaitTime 3;
+        Reset DO_02;
+        MoveL T205,v100,fine,NewChupa\WObj:=Place;
+        MoveL TApp,v100,fine,NewChupa\WObj:=Place;
+        MoveJ TPick,v100,fine,NewChupa\WObj:=Pick;
+    ENDPROC
+```
+
+#### MoveP1
+Para mover la primera Pinza, que termina al extremo más alejado de la zona trabajada, se uso un proceso análogo al de la T. Aunque solo se definio un nuevo target, el de aproximación en el workobject *Place* llamado *P1App* que tenia la orientación final requirida para la pinza. Esto debido a que la pinza debio ser girada 45° en z, y la configuración usada para el robot soportaba dicho movimiento con facilidad. Entonces, se programo que se moviera desde el *pickApp* con moveJ mientras que los movimientos porteriores son lineales con la nueva orientación adquirida. Al final de la rutina se devuelve a *PickApp* retomando la orientación original usada.
+
+```console
+    PROC MoveP1()
+        MoveJ PickApp,v100,fine,NewChupa\WObj:=Pick;
+        MoveL P1105,v100,fine,NewChupa\WObj:=Pick;
+        MoveL P110,v50,fine,NewChupa\WObj:=Pick;
+        Set DO_01;
+        WaitTime 3;
+        Reset DO_01;
+        MoveL P1105,v100,fine,NewChupa\WObj:=Pick;
+        MoveL PickApp,v100,fine,NewChupa\WObj:=Pick;
+        MoveJ P1App,v100,fine,NewChupa\WObj:=Place;
+        MoveL P125,v100,fine,NewChupa\WObj:=Place;
+        WaitDI DI_01,1;
+        MoveL P120,v50,fine,NewChupa\WObj:=Place;
+        Set DO_02;
+        WaitTime 3;
+        Reset DO_02;
+        MoveL P125,v100,fine,NewChupa\WObj:=Place;
+        MoveL P1App,v100,fine,NewChupa\WObj:=Place;
+        MoveJ PickApp,v100,fine,NewChupa\WObj:=Pick;
+    ENDPROC
+```
+
+#### MoveP2
+La Pinza2, la que va al extremo más alejado del eje x en el ensamble, requería de una rotación de -90° en z. Dicha rotación negativa no podia hacerse con la configuración usada, por lo que se debio hacer una rutina especial en la que primero se tomó la pinza con la herramienta orientada viendo hacia el eje x positivo. Para ello se programo un nuevo target *P2Pick* 60mm más alto en z que el target *PickApp*, con la orientacón deseada de recogida. También se programo un target en el workobject de dejada llamado *P2App* que estaba a la misma altura que *P2Pick*. Estos dos targets se pusieron en alturas elevadas de forma que al hacer la rotación de la pinza, no colisionará con ningún objeto debajo de ella, ya que durante el moveJ desde *P2Pick* a *P2App* la pieza rota hacia abajo respecto al eje y disminuyendo su altura respecto a las demás piezas.
+
+```console
+    PROC MoveP2()
+        MoveJ P2Pick,v100,fine,NewChupa\WObj:=Pick;
+        MoveL P2105,v100,fine,NewChupa\WObj:=Pick;
+        MoveL P210,v50,fine,NewChupa\WObj:=Pick;
+        Set DO_01;
+        WaitTime 3;
+        Reset DO_01;
+        MoveL P2105,v100,fine,NewChupa\WObj:=Pick;
+        MoveJ P2Pick,v100,fine,NewChupa\WObj:=Pick;
+        MoveJ P2App,v100,fine,NewChupa\WObj:=Place;
+        MoveL P225,v100,fine,NewChupa\WObj:=Place;
+        MoveL P220,v50,fine,NewChupa\WObj:=Place;
+        Set DO_02;
+        WaitTime 3;
+        Reset DO_02;
+        MoveL P225,v100,fine,NewChupa\WObj:=Place;
+        MoveL P2App,v100,fine,NewChupa\WObj:=Place;
+    ENDPROC
+```
