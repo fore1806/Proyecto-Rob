@@ -72,7 +72,7 @@ Para este proyecto se utilizaron dos estaciones de trabajo en RoboStudio, una pa
 
 La estación para simulación contaba con objetos inteligentes *attacher* y *detacher* controlados por 14 salidas digitales en total que permitieron simular que la herramienta tomara y soltara las piezas. Dos salidas digitales por pieza: una para activar el objeto *attacher* para que se uniera al TCP y otra para activar el *detacher* para soltar la pieza del TCP cuando llegaba a la posición de destino. También se usaron objetos inteligentes tipo *placer* para devolver las piezas a sus posiciones iniciales para facilitar las iteraciones. 
 
-En la figura contigua son las que estan con el valor binario 1 (aparte de las tres que son nativas del controlador). También se pueden apreciar las 7 piezas a mover, y los dos *worldobjets* diseñados, el de la tabla de ubicación inicial, y el de la tabla que soporta el ensamble final.
+En la figura contigua son las que estan con el valor binario 1 (aparte de las tres que son nativas del controlador). También se pueden apreciar las 7 piezas a mover, y los dos *workdobjets* diseñados, el de la tabla de ubicación inicial, y el de la tabla que soporta el ensamble final.
 
 ![StationSimulationGood](https://user-images.githubusercontent.com/62154397/203449370-814f3697-8ef5-4d7d-8ee2-042a63d5a756.jpg)
 
@@ -84,24 +84,22 @@ Como la estación de trabajo del LabSIR solo reconoce 3 salidas y entradas digit
 
 ![StationLabGood](https://user-images.githubusercontent.com/62154397/203449697-a98e4cf2-625b-42bf-9e7d-476211c43337.jpg)
 
-En esta estación se tuvo en cuenta el offset en z de la plataforma que se usa como suelo en el LABSIR, de forma que se pudieran programar de una forma más precisa los targets de las trayectorias de las rutinas de definir los *workobjects*, ya que estas tienen como padre un **workobject *World* que esta posicionado en el (0,0,0) del mundo; (0,0,25) con el offset planteado. Todas las piezas y tablas vistas en la imagen tienen un offset de 25 en z con respecto al 0 de la estación.
+En esta estación se tuvo en cuenta el offset en z de la plataforma que se usa como suelo en el LABSIR, de forma que se pudieran programar de una forma más precisa los targets de las trayectorias de las rutinas de definir los *workobjects*, ya que estas tienen como padre un workobject *World* que esta posicionado en el (0,0,0) del mundo; (0,0,25) con el offset planteado. Todas las piezas y tablas vistas en la imagen tienen un offset de 25 en z con respecto al 0 de la estación.
 
 El codigo RAPID generado por esta estación es discutido en la siguiente sección y también se encuentra en la carpeta ProyectoLab de la sección RAPID del repositorio.
 
 
 ## Código RAPID
 
-Codigo de cada modulo con una breve descripcion.
-Recordar definir las dos rutinas para definir los workobjects. 
 EL código RAPID que se corrio en el controlador del LABSIR fue el siguiente.
 
 ### CalibData
 
 
 En el archivo de CalibData se subió la información del TCP de la herramienta utilizada, y la de los tres workobjects definidos: 
-- NewWorld que estaba en (0,0,35) que sirvio para ubicar los puntos de las rutinas *DefinePick* y *DefinePlace*
-- Pick que correspondia a la tabla donde se ponian las piezas en sus posiciones iniciales.
-- Place que correspondia a la tabla que sopotaba el ensamblaje.
+- **NewWorld** que estaba en (0,0,35) que sirvio para ubicar los puntos de las rutinas *DefinePick* y *DefinePlace*
+- **Pick** que correspondia a la tabla donde se ponian las piezas en sus posiciones iniciales.
+- **Place** que correspondia a la tabla que sopotaba el ensamblaje.
 
 ```console
 MODULE CalibData
@@ -113,7 +111,7 @@ ENDMODULE
 ```
 
 ### Module1
-Este es el modulo que se corre en el flexpendant. Donde aparecen todos los targets y las rutinas (trayectorias) ejecutadas por el robot durante la práctica.
+Este es el modulo que se corre desde el flexpendant. Donde aparecen todos los targets y las rutinas (trayectorias) ejecutadas por el robot durante la práctica.
 
 #### Definición de Targets
 
@@ -183,7 +181,7 @@ MODULE Module1
 #### Main
 En el main del programa, que define que trayectorias y en que orden se ejecutan se organizo la rutina del robot de la siguiente manera: 
 
-Primero se lleva el programa a la posición de Home. Luego se espera a que se oprima el botón de la entrada digital DI_01. Una vez oprimido el botón se enciende el LED conectado a la salida DO_03 y se ejecuta la trayectoria de recoger la Basa del gripper y ponerla en el ensamble. Luego se mueve la pieza T, después la Pinza1, luego la Pinza2, despúes los dos Eslabones de Transmisión, y por último la placa de retención. Una vez se termina de ensamblar el gripper, el Robot se va a la posición de *HomeFinal* y se paga el LED indicando que se termino de ejecutar la rutina.
+Primero se lleva el programa a la posición de Home. Luego se espera a que se oprima el botón de la entrada digital DI_01. Una vez oprimido el botón se enciende el LED conectado a la salida DO_03 y se ejecuta la trayectoria de recoger la Base del gripper y ponerla en el ensamble. Luego se mueve la pieza T, después la Pinza1, luego la Pinza2, despúes los dos Eslabones de Transmisión, y por último la placa de retención. Una vez se termina de ensamblar el gripper, el Robot se va a la posición de *HomeFinal* y se paga el LED indicando que se termino de ejecutar la rutina.
 
 Las rutinas de *DefinePick* y *DefinePlace* que ayudan a definir los objetos de trabajo solo se ejecutan una vez, antes de ejecutar el programa de ensamble, se descomentan estas cuatro lineas de código, se definen los *workobjects* y una vez definidos se pone el *Program Pointer* en main otra vez, se comentan otra vez las lineas de código y se vuelve a ejecutar el programa.
 
@@ -211,11 +209,13 @@ PROC main()
 
 Al inicio de todas la rutinas hay un movimiento de *joint*  a un target intermedio 80mm arriba de la tabla inicial, esto para evitar conflictos si se paraba el programa en algun punto no esperado, ya que en este caso el robot parte de la posición *Home*, inhabilitando la opción de un movimiento lineal por la posición de la herramienta mirando hacia el eje -y. Este target intermedio es a donde van la mayoria de trayectorias después de subir 25mm después de haber tomado o dejado una pieza. Hay un target intermedio definido para el workobject *Pick* llamado *PickApp* y uno para el workobject *Place* llamado *PlaceApp*, ambos cumplen la misma funcionalidad en su respectivo workobject. De hecho para pasar de un workobject a otro , se hace un movimiento lineal desde *PickApp* hacia *PlaceApp*. En el caso de las piezas que requiren rotación se crearon otros targets análogos en el workboject *Place* con la orientación final requerida pero a una altura aproximada a la de *PlaceApp*.
 
-Todas las rutinas también tiene un punto de aproximación 25mm encima del target esperado de recogida, y de soltada, de forma que la recogida y la soltada se hacen con un movimiento recto descendiente de 25mm, disminuyendo la fuerza ejercida sobre la pieza y aumentando la precisión de estos movimientos. Entonces, el robot llega al target de aproximación, baja al target esperado, vuelve a subir a este target de aproximación y de ahi pasa al atrget intermedio *PickApp* para luego saltar al otro punto intermedio del target *Place* y repite un proceso análogo al de aproximación pero para el target en *Place*.
+Todas las rutinas también tiene un punto de aproximación 25mm encima del target esperado de recogida, y de soltada, de forma que la recogida y la soltada se hacen con un movimiento recto descendiente de 25mm, disminuyendo la fuerza ejercida sobre la pieza y aumentando la precisión de estos movimientos. Entonces, el robot llega al target de aproximación, baja al target esperado, vuelve a subir a este target de aproximación y de ahi pasa al target intermedio *PickApp* para luego saltar al otro punto intermedio del workobject *Place* y repite un proceso análogo al de aproximación pero para el target en *Place*.
 
 También se programo que al llegar al punto de recogida, el robot encienda la succión, espere 3 segundos en dicha posición, luego vuelva a apagar la señal que activa la valvula y ahi si ejecute la siguiente instrucción de movimiento. Esto le da tiempo a la succión de atrapar bien la pieza y evita el conflicto de que ambas salidas digitales conectadas a la valvula esten activas al mismo tiempo en algún momento. Cuando llega al punto de dejada, hace el mismo proceso de espera, pero en este caso activa y desactiva la salida que apaga la succión en la valvula.
 
-Todas las instrucciones *Move* terminan en el target *PickApp* para darle continuación a la siguiente traycetoria, ya que se definió este target como el movimento inicial de todas las trayectorias que mueven las piezas.
+Todas las instrucciones *Move* terminan en el target *PickApp* para darle continuación a la siguiente traycetoria, ya que se definió este target como el movimento inicial de todas las trayectorias que mueven las piezas. 
+
+EL movimiento del robot se programo en una velocidad de 100v para los movimientos de piezas, de 50v para las aproximaciones a los targets desde 25mm de altura, y de 300v para las rutinas de home. Todas las instrucciones fueron definidas con una precisión de fine.
 
 #### MoveBase
 Esta trayectoria lleva al robot a recoger la Base del gripper en el workobject *Pick* y la lleva hasta su posición final en el ensamble definido como el workobject *Place*. Esta pieza no requiere de ninguna rotación por lo que casi todos los movimientos son lineales, excepto la primera línea de aproximación.
@@ -294,7 +294,7 @@ Para mover la primera Pinza, que termina al extremo más alejado de la zona trab
 ```
 
 #### MoveP2
-La Pinza2, la que va al extremo más alejado del eje x en el ensamble, requería de una rotación de -90° en z. Dicha rotación negativa no podia hacerse con la configuración usada, por lo que se debio hacer una rutina especial en la que primero se tomó la pinza con la herramienta orientada viendo hacia el eje x positivo. Para ello se programo un nuevo target *P2Pick* 60mm más alto en z que el target *PickApp*, con la orientacón deseada de recogida. También se programo un target en el workobject de dejada llamado *P2App* que estaba a la misma altura que *P2Pick*. Estos dos targets se pusieron en alturas elevadas de forma que al hacer la rotación de la pinza, no colisionará con ningún objeto debajo de ella, ya que durante el moveJ desde *P2Pick* a *P2App* la pieza rota hacia abajo respecto al eje y disminuyendo su altura respecto a las demás piezas.
+La Pinza2, la que va al extremo más alejado del eje x en el ensamble, requería de una rotación de -90° en z. Dicha rotación negativa no podia hacerse con la configuración usada, por lo que se debio hacer una rutina especial en la que primero se tomó la pinza con la herramienta orientada viendo hacia el eje x positivo. Para ello se programo un nuevo target *P2Pick* 60mm más alto en z que el target *PickApp*, con la orientacón deseada de recogida. También se programo un target en el workobject de dejada llamado *P2App* que estaba a la misma altura que *P2Pick*. Estos dos targets se pusieron en alturas elevadas de forma que al hacer la rotación de la pinza no colisionará con ningún objeto debajo de ella, ya que durante el moveJ desde *P2Pick* a *P2App* la pieza rota respecto al eje y del mundo disminuyendo su altura respecto a las demás piezas.
 
 ```console
     PROC MoveP2()
@@ -316,3 +316,132 @@ La Pinza2, la que va al extremo más alejado del eje x en el ensamble, requería
         MoveL P2App,v100,fine,NewChupa\WObj:=Place;
     ENDPROC
 ```
+
+#### MoveET1
+Para mover el Eslabón de Transmisión 1, el que va conectado a la pinza 1, fue necesario rotarlo -45° en z, y al igual que la pinza 2, toco cambiar la orientación en la que el robot recogia la pieza para  no cambiar de configuración. Se uso la misma orientación inicial que para la Pinza 2 (la herramienta viendo hacia x+), por lo que se reutilizo el target *P2Pick* para la recogida, y se creó un nuevo target *ET1App* sobre el workobject *Place* a la misma altura de *P2Pick*. Se usó esta misma altura elevada, ya que durante el moveJ desde *P2Pick* a *ET1App*  se produce el mismo tipo de rotación en el eje y que genera una disminución momentanea de la altura de la pieza referente al plano xy. 
+
+```console
+    PROC MoveET1()
+        MoveJ P2Pick,v100,fine,NewChupa\WObj:=Pick;
+        MoveL ET115,v100,fine,NewChupa\WObj:=Pick;
+        MoveL ET110,v50,fine,NewChupa\WObj:=Pick;
+        Set DO_01;
+        WaitTime 3;
+        Reset DO_01;
+        MoveL ET115,v100,fine,NewChupa\WObj:=Pick;
+        MoveL P2Pick,v100,fine,NewChupa\WObj:=Pick;
+        MoveJ ET1App,v100,fine,NewChupa\WObj:=Place;
+        MoveL ET125,v100,fine,NewChupa\WObj:=Place;
+        MoveL ET120,v50,fine,NewChupa\WObj:=Place;
+        Set DO_02;
+        WaitTime 3;
+        Reset DO_02;
+        MoveL ET125,v100,fine,NewChupa\WObj:=Place;
+        MoveL ET1App,v100,fine,NewChupa\WObj:=Place;
+        MoveJ PickApp,v100,fine,NewChupa\WObj:=Pick;
+    ENDPROC
+```
+
+#### MoveET2
+El movimiento del Eslabón Transmisor 2, el que va pegado a la pinza 2, requirio de una rotación de +45° en z. Dicha rotación positiva se  puede realizar con la configuración elegida, por lo que no fue necesario cambiar la orientación inicial de la pieza. Así que al igual que en la pinza 2, se creo un nuevo target, el de aproximación, para el workobject place, llamado *ET2App* con la orientación final de la pieza. Este target estaba a la misma altura del *PlaceApp* ya que la rotación de este eslabon se realiza paralelo al plano xy manteniendo su altura durante el movimiento articular desde *PickApp* hasta *AT2App*.
+
+```console
+    PROC MoveET2()
+        MoveJ PickApp,v100,fine,NewChupa\WObj:=Pick;
+        MoveL ET215,v100,fine,NewChupa\WObj:=Pick;
+        MoveL ET210,v50,fine,NewChupa\WObj:=Pick;
+        Set DO_01;
+        WaitTime 3;
+        Reset DO_01;
+        MoveL ET215,v50,fine,NewChupa\WObj:=Pick;
+        MoveL PickApp,v100,fine,NewChupa\WObj:=Pick;
+        MoveL ET2App,v100,fine,NewChupa\WObj:=Place;
+        MoveL ET225,v50,fine,NewChupa\WObj:=Place;
+        MoveL ET220,v50,fine,NewChupa\WObj:=Place;
+        Set DO_02;
+        WaitTime 3;
+        Reset DO_02;
+        MoveL ET225,v50,fine,NewChupa\WObj:=Place;
+        MoveL ET2App,v100,fine,NewChupa\WObj:=Place;
+        MoveL PickApp,v100,fine,NewChupa\WObj:=Pick;
+    ENDPROC
+```
+
+#### MovePR 
+La última pieza a mover, la placa de retención no requiere de ninguna rotación para dejarla en su posición final. ASí que, al igual que con la base del gripper, todos los movimientos realizados en esta rutina son lineales a excepción del primero que es un artitular a *PickApp*.
+```console
+    PROC MovePR()
+        MoveJ PickApp,v100,fine,NewChupa\WObj:=Pick;
+        MoveL F15,v100,fine,NewChupa\WObj:=Pick;
+        MoveL F10,v50,fine,NewChupa\WObj:=Pick;
+        Set DO_01;
+        WaitTime 3;
+        Reset DO_01;
+        MoveL F15,v50,fine,NewChupa\WObj:=Pick;
+        MoveL PickApp,v100,fine,NewChupa\WObj:=Pick;
+        MoveL PlaceApp,v100,fine,NewChupa\WObj:=Place;
+        MoveL F25,v100,fine,NewChupa\WObj:=Place;
+        MoveL F20,v50,fine,NewChupa\WObj:=Place;
+        Set DO_02;
+        WaitTime 3;
+        Reset DO_02;
+        MoveL F25,v50,fine,NewChupa\WObj:=Place;
+        MoveL PlaceApp,v100,fine,NewChupa\WObj:=Place;
+        MoveL PickApp,v100,fine,NewChupa\WObj:=Pick;
+    ENDPROC
+```
+
+#### Homing
+Esta rutina lleva al robot a su posición inicial antes de empezar la rutina. Se diseño con todas las articulacoines en 0, a excepción de la 5 que queda a 30° para evitar el caso donde la articulación 6 y 4 se alinean creando una singularidad en el robot. Se ejecuta con MOveAbsJ para que pueda ser ejecutada independientemente de la posición en la que este el robot.
+
+```console
+    PROC Homing()
+        MoveAbsJ Home,v200,fine,NewChupa\WObj:=wobj0;
+    ENDPROC
+```
+
+#### Final 
+La rutina del final lleva al Robot a la posición de home absoluta del robot con todas sus articulaciones en 0°. Esta rutina se creo con el propósito de poder apagar el robot tranquilamente al finalizar la rutina ya que en el LABSIR aun no se cuentan con las baterias que guardan el home del Robot.
+
+```console
+    PROC Final()
+        MoveAbsJ HomeFinal,v300,fine,NewChupa\WObj:=wobj0;
+    ENDPROC
+```
+
+#### DefinePick
+La rutina creada para definiri el workobject *Pick* en el LABSIR, que corresponde a la base que porta las piezas en su posicion inicial. Esta rutina lleva al robot a los tres puntos definidos en la simulación, pero con 40mm de offset positivo en z. De esta forma, el robot no movera la tabla al ejecutar la rutina. También se le puso paradas controladas por la entrada digital DI_01, de forma que al llegar a un punto, sea posible parar el programa, llevar manualmente el robot al punto requerido y poder modificar dicho punto en la definicion del workobject en el flexpendant. Así, no se pierde el punto de referencia al volver a ejecutar el programa, y se puede reaundar en ese mismo punto de ejecución. Se usan velocidades de 300v para todos los movimientos, y todos los targets se basan en el workobject World creado. AL final de la rutina el robot se devuelva a la posición de *Home* inicial.
+
+```console
+    PROC DefinePick()
+        MoveJ pick1,v300,fine,NewChupa\WObj:=NewWorld;
+        WaitDI DI_01,1;
+        MoveL pick155,v300,fine,NewChupa\WObj:=NewWorld;
+        MoveJ pick15,v300,fine,NewChupa\WObj:=NewWorld;
+        MoveL pick2,v300,fine,NewChupa\WObj:=NewWorld;
+        WaitDI DI_01,1;
+        MoveL pick25,v300,fine,NewChupa\WObj:=NewWorld;
+        MoveJ pick35,v300,fine,NewChupa\WObj:=NewWorld;
+        MoveL pick3,v300,fine,NewChupa\WObj:=NewWorld;
+        WaitDI DI_01,1;
+        MoveAbsJ Home,v300,fine,NewChupa\WObj:=wobj0;
+    ENDPROC
+```
+
+#### DefinePlace
+Es practicamente la misma rutina que la *DefinePick*, pero en este caso se ubican los tres puntos previamente simulados para definir el workobject *Place*. Tiene las mismas paradas en los mismos timepos de la rutina, aunque en este caso los puntos estan a un offset de 80mm en z, esto debido a que en el LABSIR la tabla que soporta el ensaamble tendra tornillos en sus huecos que sobrepasan la superficie de la tabla por unos 8mm. Así que para prevenir colisiones se definio dicho offset. También regresa a *Home* inicial al final de la rutina, y al igual que la rutina anterior todos sus movimientos son de tipo moveJ y presición fine.
+
+```console
+     PROC DefinePlace()
+        MoveJ place1,v300,fine,NewChupa\WObj:=NewWorld;
+        WaitDI DI_01,1;
+        MoveL place2,v300,fine,NewChupa\WObj:=NewWorld;
+        WaitDI DI_01,1;
+        MoveL place25,v300,fine,NewChupa\WObj:=NewWorld;
+        MoveJ place35,v300,fine,NewChupa\WObj:=NewWorld;
+        MoveJ place3,v300,fine,NewChupa\WObj:=NewWorld;
+        WaitDI DI_01,1;
+        MoveAbsJ Home,v300,fine,NewChupa\WObj:=wobj0;
+    ENDPROC
+ENDMODULE
+ ```
