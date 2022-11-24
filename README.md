@@ -24,13 +24,32 @@ Duración entre 7 y 10 min
 
 ## Gripper diseñado
 
-Planos, Diseño 3D, Fotografias y piezas. 
+#### Diseño 3D
+
+El gripper diseñado es de movimiento angular, cuenta don dos pinzas, ubicadas una al frente de la otra, que al girar sobre su propio eje se acercan o se alejan la una de la otra dependiendo de su ángulo de rotación. Este par de pinzas generan la sujeción del gripper, al acercarse se cierra el gripper y agarra el objeto, al separarse las pinzas se abre el gripper y suelta el objeto. Las  piezas encargadas de generar la rotaicón coordinada de ambas pizas son una T y dos eslabones transmisores que conectan la T con cada pinza. De esta forma, cuando la T se hala hacia adelante, los eslabones transmisores convertiran este movimiento en una rotación hacia afuerda del gripper de su respectiva pinza, generando la apertura del gripper. Y cuando la T se hala hacia atrás, los eslabones se mueven de forma que las pinzas rotan hacia adentro del gripper generando que este se cierre. Estas cuatro piezas estan dispuestas sobre una base simétrica que tiene los huecos correspondientes para fijar las pinzas y los eslabones en posiciones simétricas respecto al eje central de la base del gripper, donde se ubicara la T. De forma que, el movimiento por parte del usuario de la T genere un mismo ángulo de rotación rotación tanto en la pinza derecha como en la izquierda. Para limitar el movimiento de la T a un movimiento estricatamente vertical, se diseño una placa de retención que va encima de la T, esta pieza genera una presión sobre esta pieza de forma que esta solo se pueda desplazar por las tres hendiduras guía dispuestas para ella en la base del gripper.
+
+A continuación se muestra el ensamble 3D del gripper diseñado para este proyecto.
+
+![Gripper3D](https://user-images.githubusercontent.com/62154397/203703554-2af59f28-e818-4712-bc04-57349bc4e0d4.jpg)
+
+#### Planos.
+El gripper esta conformado por las siguientes piezas. La base del gripper, 2 pinzas identicas, 2 eslabones de transmisión identicos, una T, y una placa de retención.. Como las pinzas y lso eslabones son identicos se hizo solo un modelo por cada uno de estos, y simplemente se reprodujo dos veces cada uno para lograr el diseño requerido. POr tal motivo, solo se presentan 5 planos de las piezas, aunque en realidad el gripper implementado tiene 7 piezas.
+
+![BaseGripper_page-0001](https://user-images.githubusercontent.com/62154397/203703411-c0163c83-d27a-4b2a-9e25-250a6ed67448.jpg)
+
+![T_page-0001](https://user-images.githubusercontent.com/62154397/203703423-feedf099-8ffd-4b5b-8b44-f56f453cc20c.jpg)
+
+![Pinzas_page-0001](https://user-images.githubusercontent.com/62154397/203703430-e80ee86c-39b4-4ea4-b25f-0014631e18d0.jpg)
+
+![EslabonTransmisor_page-0001](https://user-images.githubusercontent.com/62154397/203703434-8e585b29-3f4c-49c6-9176-5e94b1081e52.jpg)
 
 ## Bases Diseñadas
 
 Con el objetivo de hacer el ensamblaje del mecanismo es necesario diseñar dos estructuras que permitan, por un lado, acceder a las piezas en un lugar especifico y en una posición determinada y, por otro lado, alojar estas mismas en una estructura que facilite el ensamblaje final del mecanismo. Con esto en mente se diseña una base de sujeción de piezas y una base de alojamiento de las mismas, tal y como se muestra a continuación:
 
 ### Base de sujeción de piezas 
+
+#### Diseño 3D
 
 Haciendo uso de la herramienta Inventor se diseña el siguiente modelo 3d, en este se le asigna una posición especifica a cada una de las piezas del gripper tratando de utilizar la menor área posible y, teniendo en cuenta, que debe existir un espacio considerable entre las mismas.
 
@@ -40,6 +59,16 @@ Las piezas lucirán de la siguiente manera acto previo al inicio del proceso de 
 
 ![](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/SoporteInicial2.jpg) 
 
+#### Planos
+
+A continuación se presenta el plano de diseño de la base.
+
+![2-1-4Parte 1 Base para Tomar Piezas_page-0001](https://user-images.githubusercontent.com/62154397/203698154-ae6b9aa6-4ea8-4e63-847f-117f3e577187.jpg)
+
+
+
+#### Resultado Final
+
 A continuación se presenta la base de sujeción elaborada con madera MDF en un espesor de 5mm mediante un proceso de corte láser:
 
 ![](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/BaseSujecion.png) 
@@ -47,12 +76,24 @@ A continuación se presenta la base de sujeción elaborada con madera MDF en un 
 
 ### Base del Ensamble Final
 
-En lo que respecta a la base del alojamiento del ensamblaje final se diseña el siguiente modelo 3D:
+#### Diseño 3D
 
+En lo que respecta a la base del alojamiento del ensamblaje final se diseña el siguiente modelo 3D:
 ![](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/portaEnsamble.jpg) 
 
 Como es posible observar, este cuenta con tres capas traslapadas una encima de otra, esto con el fin de alojar cada una de las piezas del ensamblaje final de la forma mas natural posible, de manera que sea cómodo y fácil el proceso de ensamble. Vale la pena aclarar que este molde cuenta con una tolerancia de alrededor de 2mm con respecto a las piezas que se albergan en el mismo, lo que facilita el ensamble final y evita cualquier inconveniente que pueda darse en el caso de que el posicionamiento no sea el correcto.
 
+#### Planos
+
+A continuación se muestran los planos de diseño de las tres piezas que conforman la base del ensamble, desde la base inferior hasta la tabla superior.
+
+![2-2-4Parte 1 Base Piezas_page-0001](https://user-images.githubusercontent.com/62154397/203698952-7c86dfca-4f26-4bb2-99c7-99836c710d8d.jpg)
+
+![2-3-4Parte 2 Base Piezas_page-0001](https://user-images.githubusercontent.com/62154397/203698959-054e7ca9-68e2-4e72-87ec-a8caea3e03dc.jpg)
+
+![2-4-4Parte 4 Base Piezas_page-0001](https://user-images.githubusercontent.com/62154397/203698970-12be01a0-6999-44c2-9d1b-0e390b5e119a.jpg)
+
+#### Resultado Final
 El resultado final es el siguiente:
 
 ![](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/BaseEnsamblaje.png) 
