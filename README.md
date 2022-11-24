@@ -30,7 +30,8 @@ El gripper diseñado es de movimiento angular, cuenta don dos pinzas, ubicadas u
 
 A continuación se muestra el ensamble 3D del gripper diseñado para este proyecto.
 
-![Gripper3D](https://user-images.githubusercontent.com/62154397/203703554-2af59f28-e818-4712-bc04-57349bc4e0d4.jpg)
+![Foto Gripper](https://user-images.githubusercontent.com/51063831/203832784-beef314c-cf18-4746-8908-b23e95556399.PNG)
+
 
 #### Planos.
 El gripper esta conformado por las siguientes piezas. La base del gripper, 2 pinzas identicas, 2 eslabones de transmisión identicos, una T, y una placa de retención.. Como las pinzas y lso eslabones son identicos se hizo solo un modelo por cada uno de estos, y simplemente se reprodujo dos veces cada uno para lograr el diseño requerido. POr tal motivo, solo se presentan 5 planos de las piezas, aunque en realidad el gripper implementado tiene 7 piezas.
