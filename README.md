@@ -43,6 +43,24 @@ El gripper esta conformado por las siguientes piezas. La base del gripper, 2 pin
 
 ![EslabonTransmisor_page-0001](https://user-images.githubusercontent.com/62154397/203703434-8e585b29-3f4c-49c6-9176-5e94b1081e52.jpg)
 
+#### Reasultado Final.
+
+Se uso corte laser sobre una pieza de un cuarto de pliego de MDF para generar las piezas fisicas del griper, y posteriormente se les aplico pintura negra en spray. Después de ensamblar el gripper con el robot ABB IRB140 durante la práctica en el LABSIR, se procedio a juntar las piezas usando tornillos M8 y su respectivas tuercas en los agujeros dispuestos en el ensamble generado. A continuación se muestra una foto del Gripper implementado.
+
+![FotoGripperGood](https://user-images.githubusercontent.com/62154397/203704050-65139b84-fe31-4f72-95b0-e8bec579fed2.jpg)
+
+## Rutina Diseñada
+
+Para el ensamble del gripper, se implemento una rutina que permitiera al robot recoger las piezas desde una tabla que tendría las piezas en su posición inicial dentro de ella, un soporte para las piezas. Posterioemente, el robot tomaba cada pieza y la transportaba hasta una posición especifica dentro de otro soporte que esta vez es el soporte del ensamble del gripper diseñado. Entonces, la solución planteada es un transporte desde un *workobject* de recogida hasta un *workobject* en ensamble, donde cada workobject existe fisicamente en forma de tablas dispuestás en el LABSIR. El robot fue capaz de tomar las 7 piezas una por una haciendo uso de una ventosa conectada a la neúmatica interna del IRB140 ya alimentada en el LABSIR. De forma que, para agarrar y soltar una piez es necesario tener control sobre la succión de una ventosa, lo que requiere no solo de un control por medio de salidas digitales, sino también el diseño de un porta herramienta que permita al robot conectar su TCP a la ventosa.
+
+A continuación se muestra una foto de la estación de trabajo durante el desarrollo del proyecto.
+
+![EstacionReal](https://user-images.githubusercontent.com/62154397/203711280-ceed82ea-fc51-44d5-94d2-f5a046471a25.jpg)
+
+En la estación de trabajo se contó con un tablero de control con tres salidas digitales: DO_01 y DO_02 cableadas a la valvula de succión, y DO_03 conectada a un piloto LED verde. Y tres entradas digitales: cada una conectada a un boton verde designado en el tablero. Una foto del tablero con el que se trabajo durante la práctca en el LABSIR se encuentra a continuación.
+
+![Tablero](https://user-images.githubusercontent.com/62154397/203712032-5f7f983d-59ad-4651-b63c-427e3f673081.jpg)
+
 ## Bases Diseñadas
 
 Con el objetivo de hacer el ensamblaje del mecanismo es necesario diseñar dos estructuras que permitan, por un lado, acceder a las piezas en un lugar especifico y en una posición determinada y, por otro lado, alojar estas mismas en una estructura que facilite el ensamblaje final del mecanismo. Con esto en mente se diseña una base de sujeción de piezas y una base de alojamiento de las mismas, tal y como se muestra a continuación:
@@ -102,8 +120,36 @@ Para llegar al resultado anterior es necesario pegar las tres capas con colbon, 
 
 ## Porta Ventosa Diseñado
 
-Modelo 3D, Fotografia, Piezas utilizadas, proceso de ensamble.
-Válvula Electrómecánica 3 a 2 para activar la succión.
+#### Módelo 3D 
+
+El portaherramientas diseñado fue una herramienta capaz de sostener una ventosa con un cuello de 18mm de diamétro totalmento vertical respecto a la superficie del suelo. Para aumentar el alcance horizontal del robot y mantener un cuerpo lo suficientemente rigido para soporta la fuerza de reacción cuando el robot ejerciera fuerza sobre la pieza a recoger, se decidió implementar una herramienta de longitud 10cm con una inclinación de 45° respecto a la horizontal y un espesor de 14mm. La pieza va montada en el plato portaherramienta del IRB140 por medio de tornillos, y la ventosa se mantiene en su lugar usando dos tornillos para generar una sujeción entre las dos piezas awmicirculares diespuestas una enfrente de la otra ubicadas en la punta inferior de la herramienta.
+
+A continuación se muestra un modelo 3D del portaherramientas diseñado. En el diseño 3D, se puede apreciar que la ventosa se aproximó a un cilindro con un radio y una altura medidas con calibrador en el LABSIR previamente.
+
+![PortaHerramienta](https://user-images.githubusercontent.com/62154397/203705146-f71b489d-3a66-485a-b4cb-90d1b4e5f014.jpg)
+
+#### Planos
+
+EL portaherramienta diseñado cuenta con cuatro piezas. EL plato que lo conecta con el plato portaherramientas del robot, el cuerpo principal que conecta el plato con el portaventosa. El semicirculo que va unido al cuerpo y soporta la ventosa en su posición, y el otro semicirculo que asegura la ventosa en su lugar al fijarse junto a la unión anteriormente descrita. A continuación se presentan los planos de cada una des estas piezas.
+
+
+![1-1-4Base Porta Herramienta_page-0001](https://user-images.githubusercontent.com/62154397/203707100-d13a1234-13c6-4705-adbe-b004afc2f806.jpg)
+
+![1-2-4Cuerpo Porta Herramienta_page-0001](https://user-images.githubusercontent.com/62154397/203707153-46e9b1c1-cf98-4ab0-a2fa-a0626a2abff1.jpg)
+
+![1-3-4Unión Cuerpo-Ventosa_page-0001](https://user-images.githubusercontent.com/62154397/203707164-19b96ab7-6808-4f77-8a97-270fab36978d.jpg)
+
+![1-4-4Soporte Ventosa_page-0001](https://user-images.githubusercontent.com/62154397/203707738-acdea318-7802-41ea-a335-e684b4bef5de.jpg)
+
+#### Resultado Final
+
+Estas cuatro piezas fueron impresas en PLA con una impresora 3D al 80% de relleno y porteriormente unidas con tornillos en los huecos dispuestos en cada pieza. Una foto del porta herramienta diseñado montado en el IRB140 sosteniendo la ventosa durante la práctica realizada se puede apreciar a continuación.
+
+![POrtaHerramientas](https://user-images.githubusercontent.com/62154397/203708193-f9e170c2-11c4-41a7-bee0-5e151c3f6251.jpg)
+
+Para poder controlar la succión de la ventosa con dos salidas digitales del controlador, se conectó una válvula Electrómecánica 3 a 2 a la ventosa y a la salida neumática del robot IRB140. La entrada de la valula era la neumática interna del IRB, mientras que la salida de la valvula se conecto a la ventosa. Todas las conexiones neumáticas se realizaron con mangueras y codos correspondientes. También se le conecto un silenciador a la salida de la valvulá para atenuar el ruido generado por el arire presurisado saliente del sistema. A continuación se muestra una foto del las conexiones neumáticas realizadas sobre le IRB140.
+
+![Valvula](https://user-images.githubusercontent.com/62154397/203710243-31adbd32-243d-4345-a8dd-4b292efac8f1.jpg)
 
 ## Estación en Robot Studio
 
@@ -128,7 +174,6 @@ Como la estación de trabajo del LabSIR solo reconoce 3 salidas y entradas digit
 En esta estación se tuvo en cuenta el offset en z de la plataforma que se usa como suelo en el LABSIR, de forma que se pudieran programar de una forma más precisa los targets de las trayectorias de las rutinas de definir los *workobjects*, ya que estas tienen como padre un workobject *World* que esta posicionado en el (0,0,0) del mundo; (0,0,25) con el offset planteado. Todas las piezas y tablas vistas en la imagen tienen un offset de 25 en z con respecto al 0 de la estación.
 
 El codigo RAPID generado por esta estación es discutido en la siguiente sección y también se encuentra en la carpeta ProyectoLab de la sección RAPID del repositorio.
-
 
 ## Código RAPID
 
