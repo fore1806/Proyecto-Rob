@@ -38,11 +38,13 @@ El gripper esta conformado por las siguientes piezas. La base del gripper, 2 pin
 
 ![BaseGripper_page-0001](https://user-images.githubusercontent.com/62154397/203703411-c0163c83-d27a-4b2a-9e25-250a6ed67448.jpg)
 
-![T_page-0001](https://user-images.githubusercontent.com/62154397/203703423-feedf099-8ffd-4b5b-8b44-f56f453cc20c.jpg)
+![EslabonTransmisor_page-0001](https://user-images.githubusercontent.com/62154397/203703434-8e585b29-3f4c-49c6-9176-5e94b1081e52.jpg)
 
 ![Pinzas_page-0001](https://user-images.githubusercontent.com/62154397/203703430-e80ee86c-39b4-4ea4-b25f-0014631e18d0.jpg)
 
-![EslabonTransmisor_page-0001](https://user-images.githubusercontent.com/62154397/203703434-8e585b29-3f4c-49c6-9176-5e94b1081e52.jpg)
+![T_page-0001](https://user-images.githubusercontent.com/62154397/203703423-feedf099-8ffd-4b5b-8b44-f56f453cc20c.jpg)
+
+![PlacaRetencion_page-0001](https://user-images.githubusercontent.com/51063831/203835386-58bd4028-132f-4484-b17b-817f3c7314c8.jpg)
 
 #### Reasultado Final.
 
