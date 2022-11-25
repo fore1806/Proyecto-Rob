@@ -13,14 +13,9 @@ Proyecto final de la asignatura Robótica de la Universidad Nacional de Colombia
 |   Allan Giordy Serrato Gutierrez   |[alllangsg](https://github.com/alllangsg)|
 
 ## Video del Proyecto
-Duración entre 7 y 10 min
-- Intro al LabSir
-- Front de la UN
-- Autores, Profesor, Curso, año, etc..
-- Video Simulación (estimado de tiempo)
-- Video en el Lab (mostrando panel de control).
-- Zoom en el gripper al final del ensamblaje. (moviendose en su puesto)
-- Demostración del Gripper ensamblado.
+
+[![Alt text](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/video.png)](https://www.youtube.com/watch?v=Y0Q8BF05VRc)
+
 
 ## Gripper diseñado
 
@@ -534,6 +529,3 @@ Es practicamente la misma rutina que la *DefinePick*, pero en este caso se ubica
     ENDPROC
 ENDMODULE
  ```
-#### Video
-
-[![Alt text](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/video.png)](https://www.youtube.com/watch?v=Y0Q8BF05VRc)
