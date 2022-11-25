@@ -534,3 +534,6 @@ Es practicamente la misma rutina que la *DefinePick*, pero en este caso se ubica
     ENDPROC
 ENDMODULE
  ```
+#### Video
+
+[![Alt text](https://github.com/fore1806/Laboratorio-5-Rob/blob/master/DIAGRAMAS-FOTOS/video.png)](https://www.youtube.com/watch?v=Y0Q8BF05VRc)
