@@ -536,4 +536,4 @@ ENDMODULE
  ```
 #### Video
 
-[![Alt text](https://github.com/fore1806/Laboratorio-5-Rob/blob/master/DIAGRAMAS-FOTOS/video.png)](https://www.youtube.com/watch?v=Y0Q8BF05VRc)
+[![Alt text](h[ttps://github.com/fore1806/Laboratorio-5-Rob/blob/master/DIAGRAMAS-FOTOS/video.png](https://github.com/fore1806/Proyecto-Rob/blob/master/Imagenes/video.png))](https://www.youtube.com/watch?v=Y0Q8BF05VRc)
